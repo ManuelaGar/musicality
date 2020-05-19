@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:audioplayer/audioplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'play_pause_icon.dart';
-import 'duration_indicators.dart';
+import 'components/duration_indicators.dart';
+import 'components/play_pause_icon.dart';
 
 typedef void OnError(Exception exception);
 
@@ -26,18 +25,17 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
   Duration duration = Duration(seconds: 0);
   Duration position = Duration(seconds: 0);
 
+  AudioPlayer audioPlayer;
+  String localFilePath;
+
   Color activeIconColor = Colors.white;
   Color inactiveIconColor = Colors.white70;
 
   bool downloadEnabled = true;
   bool isDownloaded = false;
-
-  AudioPlayer audioPlayer;
-
-  String localFilePath;
+  bool isMuted = false;
 
   PlayerState playerState = PlayerState.stopped;
-
   get isPlaying => playerState == PlayerState.playing;
   get isPaused => playerState == PlayerState.paused;
 
@@ -46,8 +44,6 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
 
   get positionText =>
       position != null ? position.toString().split('.').first : '';
-
-  bool isMuted = false;
 
   StreamSubscription _positionSubscription;
   StreamSubscription _audioPlayerStateSubscription;

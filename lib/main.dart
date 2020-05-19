@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'audio_paying_widget.dart';
+import 'play_audio_screen.dart';
+import 'package:audio_service/audio_service.dart';
 
 void main() {
   runApp(AudioApp());
@@ -10,7 +11,7 @@ class AudioApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Musicality',
-      home: AudioPlayingWidget(),
+      home: AudioServiceWidget(child: AudioPlayingWidget()),
     );
   }
 }
