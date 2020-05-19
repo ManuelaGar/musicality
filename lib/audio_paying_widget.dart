@@ -169,11 +169,14 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
         ),
         alignment: Alignment.bottomCenter,
         child: Container(
-          padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 20.0),
-          height: MediaQuery.of(context).copyWith().size.height * 0.35,
+          padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 20.0),
+          height: MediaQuery.of(context).copyWith().size.height * 0.4,
           decoration: BoxDecoration(
             color: Colors.black38,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(10.0),
+            ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
