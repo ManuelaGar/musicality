@@ -12,7 +12,8 @@ import 'components/play_pause_icon.dart';
 typedef void OnError(Exception exception);
 
 const kUrl =
-    "https://www.mediacollege.com/downloads/sound-effects/nature/forest/rainforest-ambient.mp3";
+    'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3';
+//const kUrl = "https://www.mediacollege.com/downloads/sound-effects/nature/forest/rainforest-ambient.mp3";
 
 enum PlayerState { stopped, playing, paused }
 
@@ -155,6 +156,8 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        '=== Slider value: ${position?.inMilliseconds?.toDouble() ?? 0.0} ===');
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -165,10 +168,10 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
         ),
         alignment: Alignment.bottomCenter,
         child: Container(
-          padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 20.0),
-          height: MediaQuery.of(context).copyWith().size.height * 0.4,
+          padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 40.0),
+          height: 280.0,
           decoration: BoxDecoration(
-            color: Colors.black38,
+            color: Colors.black26,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10.0),
               topRight: Radius.circular(10.0),
@@ -177,6 +180,26 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Container(
+                padding: EdgeInsets.only(top: 10.0),
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  onTap: isDownloaded
+                      ? null
+                      : () {
+                          _loadFile();
+                          setState(() {
+                            downloadEnabled = false;
+                          });
+                        },
+                  child: Icon(
+                    isDownloaded ? Icons.check : Icons.cloud_download,
+                    color:
+                        downloadEnabled ? activeIconColor : inactiveIconColor,
+                    size: 25.0,
+                  ),
+                ),
+              ),
               Text(
                 'currentRecording',
                 textAlign: TextAlign.center,
@@ -245,29 +268,10 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
                 ),
               ),
               DurationIndicators(
-                  position: position,
-                  positionText: positionText,
-                  duration: duration,
-                  durationText: durationText),
-              Container(
-                padding: EdgeInsets.only(top: 10.0),
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: isDownloaded
-                      ? null
-                      : () {
-                          _loadFile();
-                          setState(() {
-                            downloadEnabled = false;
-                          });
-                        },
-                  child: Icon(
-                    isDownloaded ? Icons.check : Icons.file_download,
-                    color:
-                        downloadEnabled ? activeIconColor : inactiveIconColor,
-                    size: 25.0,
-                  ),
-                ),
+                position: position,
+                positionText: positionText,
+                duration: duration,
+                durationText: durationText,
               ),
             ],
           ),

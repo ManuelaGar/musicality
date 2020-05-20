@@ -24,12 +24,12 @@ class PlayPauseIconButton extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(5, 3, 5, 3),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white,
+              color: Color(0xFF1D1E33).withOpacity(0.3),
             ),
             child: Icon(
               icon,
               size: iconSize,
-              color: Color(0xFF1D1E33),
+              color: Colors.white,
             ),
           ),
         ],
