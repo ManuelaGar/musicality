@@ -8,23 +8,29 @@ import 'package:path_provider/path_provider.dart';
 
 import 'components/duration_indicators.dart';
 import 'components/play_pause_icon.dart';
+import 'components/show_alert.dart';
 
 typedef void OnError(Exception exception);
 
 /*const kUrl =
     "https://www.mediacollege.com/downloads/sound-effects/nature/forest/rainforest-ambient.mp3";*/
 
-const kUrl =
-    'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3';
-
 enum PlayerState { stopped, playing, paused }
 
 class AudioPlayingWidget extends StatefulWidget {
+  AudioPlayingWidget({@required this.kUrl, @required this.backgroundImage});
+
+  final kUrl;
+  final backgroundImage;
+
   @override
   _AudioPlayingWidgetState createState() => _AudioPlayingWidgetState();
 }
 
 class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
+  String songUrl;
+  String bgImage;
+
   Duration duration = Duration(seconds: 0);
   Duration position = Duration(seconds: 0);
 
@@ -44,7 +50,6 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
 
   get durationText =>
       duration != null ? duration.toString().split('.').first : '';
-
   get positionText =>
       position != null ? position.toString().split('.').first : '';
 
@@ -53,6 +58,9 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
 
   @override
   void initState() {
+    songUrl = widget.kUrl;
+    bgImage = widget.backgroundImage;
+
     super.initState();
     initAudioPlayer();
   }
@@ -89,8 +97,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
   }
 
   Future play() async {
-    // TODO: change kUrl to real audio
-    await audioPlayer.play(kUrl);
+    await audioPlayer.play(songUrl);
     setState(() {
       playerState = PlayerState.playing;
     });
@@ -136,8 +143,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
   }
 
   Future _loadFile() async {
-    // TODO: change kUrl
-    final bytes = await _loadFileBytes(kUrl,
+    final bytes = await _loadFileBytes(songUrl,
         onError: (Exception exception) =>
             print('_loadFile => exception $exception'));
 
@@ -162,7 +168,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/bg_img2.png'),
+            image: AssetImage(bgImage),
             fit: BoxFit.cover,
           ),
         ),
@@ -282,36 +288,4 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
       ),
     );
   }
-}
-
-showAlertDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      Future.delayed(Duration(seconds: 2), () {
-        Navigator.of(context).pop(true);
-      });
-      return AlertDialog(
-        content: Row(
-          children: <Widget>[
-            Icon(
-              Icons.check,
-              color: Colors.green,
-            ),
-            SizedBox(
-              width: 10.0,
-            ),
-            Text(
-              'Successful download!',
-            ),
-          ],
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
-          ),
-        ),
-      );
-    },
-  );
 }
