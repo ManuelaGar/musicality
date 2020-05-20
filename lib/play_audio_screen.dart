@@ -162,7 +162,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/background_image.png'),
+            image: AssetImage('images/bg_img2.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -171,7 +171,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
           padding: EdgeInsets.fromLTRB(15.0, 0, 15.0, 30.0),
           height: 280,
           decoration: BoxDecoration(
-            color: Colors.black38,
+            color: Color(0xFF1D1E33).withOpacity(0.4),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10.0),
               topRight: Radius.circular(10.0),
@@ -181,7 +181,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                padding: EdgeInsets.only(bottom: 10.0),
+                padding: EdgeInsets.only(top: 10.0),
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   onTap: isDownloaded

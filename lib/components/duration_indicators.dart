@@ -56,7 +56,7 @@ class DurationIndicators extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0),
+      padding: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -67,13 +67,13 @@ class DurationIndicators extends StatelessWidget {
                         : Duration(seconds: 0)) ??
                     ''
                 : duration != null ? formatDuration(duration) : '',
-            style: TextStyle(fontSize: 15.0, color: kNumberColor),
+            style: TextStyle(fontSize: 13.0, color: kNumberColor),
           ),
           Text(
             position != null
                 ? formatDuration(duration) ?? ''
                 : duration != null ? formatDuration(duration) : '',
-            style: TextStyle(fontSize: 15.0, color: kNumberColor),
+            style: TextStyle(fontSize: 13.0, color: kNumberColor),
           ),
         ],
       ),
