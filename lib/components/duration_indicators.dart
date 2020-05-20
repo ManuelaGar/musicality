@@ -32,8 +32,12 @@ class DurationIndicators extends StatelessWidget {
       tokens.add('$hours');
     }
     if (tokens.isNotEmpty || minutes != 0) {
-      if (minutes < 10) {
-        tokens.add('0$minutes');
+      if (hours != 0) {
+        if (minutes < 10) {
+          tokens.add('0$minutes');
+        } else {
+          tokens.add('$minutes');
+        }
       } else {
         tokens.add('$minutes');
       }
@@ -52,7 +56,7 @@ class DurationIndicators extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
+      padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

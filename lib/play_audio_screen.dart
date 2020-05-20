@@ -169,7 +169,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
         alignment: Alignment.bottomCenter,
         child: Container(
           padding: EdgeInsets.fromLTRB(15.0, 0, 15.0, 30.0),
-          height: 275,
+          height: 280,
           decoration: BoxDecoration(
             color: Colors.black38,
             borderRadius: BorderRadius.only(
@@ -222,7 +222,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
+                margin: EdgeInsets.symmetric(horizontal: 0.0, vertical: 20.0),
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
                   PlayPauseIconButton(
                     onTap: isPlaying || isPaused ? () => stop() : null,
@@ -247,11 +247,12 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
               SliderTheme(
                 data: SliderTheme.of(context).copyWith(
                   activeTrackColor: Colors.white,
-                  inactiveTrackColor: Color(0xFF8D8E98),
-                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
-                  overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
-                  thumbColor: Colors.white,
-                  overlayColor: Colors.white38,
+                  inactiveTrackColor: Colors.white38,
+                  trackHeight: 3.0,
+                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8.0),
+                  overlayShape: RoundSliderOverlayShape(overlayRadius: 13.0),
+                  thumbColor: Color(0xFFE9EAFF),
+                  overlayColor: Color(0xFFE9EAFF).withOpacity(0.4),
                 ),
                 child: Slider(
                   value: duration > position
