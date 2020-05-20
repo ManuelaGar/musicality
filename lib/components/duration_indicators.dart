@@ -32,7 +32,11 @@ class DurationIndicators extends StatelessWidget {
       tokens.add('$hours');
     }
     if (tokens.isNotEmpty || minutes != 0) {
-      tokens.add('$minutes');
+      if (minutes < 10) {
+        tokens.add('0$minutes');
+      } else {
+        tokens.add('$minutes');
+      }
     } else if (tokens.isEmpty) {
       tokens.add('0');
     }
@@ -41,7 +45,6 @@ class DurationIndicators extends StatelessWidget {
     } else {
       tokens.add('$seconds');
     }
-    //tokens.add('$seconds');
 
     return tokens.join(':');
   }
@@ -55,18 +58,17 @@ class DurationIndicators extends StatelessWidget {
         children: [
           Text(
             position != null
-                ? "${positionText ?? ''}"
-                : duration != null ? durationText : '',
-            /*? formatDuration(position) ?? ''
-                : duration != null ? formatDuration(duration) : '',*/
+                ? formatDuration(duration > position
+                        ? position
+                        : Duration(seconds: 0)) ??
+                    ''
+                : duration != null ? formatDuration(duration) : '',
             style: TextStyle(fontSize: 15.0, color: kNumberColor),
           ),
           Text(
             position != null
-                ? "${durationText ?? ''}"
-                : duration != null ? durationText : '',
-            /*? formatDuration(duration) ?? ''
-                : duration != null ? formatDuration(duration) : '',*/
+                ? formatDuration(duration) ?? ''
+                : duration != null ? formatDuration(duration) : '',
             style: TextStyle(fontSize: 15.0, color: kNumberColor),
           ),
         ],

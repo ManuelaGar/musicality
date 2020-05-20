@@ -11,9 +11,11 @@ import 'components/play_pause_icon.dart';
 
 typedef void OnError(Exception exception);
 
+/*const kUrl =
+    "https://www.mediacollege.com/downloads/sound-effects/nature/forest/rainforest-ambient.mp3";*/
+
 const kUrl =
     'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3';
-//const kUrl = "https://www.mediacollege.com/downloads/sound-effects/nature/forest/rainforest-ambient.mp3";
 
 enum PlayerState { stopped, playing, paused }
 
@@ -156,8 +158,6 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        '=== Slider value: ${position?.inMilliseconds?.toDouble() ?? 0.0} ===');
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -168,10 +168,10 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
         ),
         alignment: Alignment.bottomCenter,
         child: Container(
-          padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 40.0),
-          height: 280.0,
+          padding: EdgeInsets.fromLTRB(15.0, 0, 15.0, 30.0),
+          height: 275,
           decoration: BoxDecoration(
-            color: Colors.black26,
+            color: Colors.black38,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10.0),
               topRight: Radius.circular(10.0),
@@ -181,7 +181,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                padding: EdgeInsets.only(top: 10.0),
+                padding: EdgeInsets.only(bottom: 10.0),
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   onTap: isDownloaded
@@ -193,7 +193,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
                           });
                         },
                   child: Icon(
-                    isDownloaded ? Icons.check : Icons.cloud_download,
+                    isDownloaded ? Icons.cloud_done : Icons.cloud_download,
                     color:
                         downloadEnabled ? activeIconColor : inactiveIconColor,
                     size: 25.0,
@@ -254,7 +254,9 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
                   overlayColor: Colors.white38,
                 ),
                 child: Slider(
-                  value: position?.inMilliseconds?.toDouble() ?? 0.0,
+                  value: duration > position
+                      ? position?.inMilliseconds?.toDouble()
+                      : 0.0,
                   onChanged: (double value) {
                     Duration pos = Duration(
                         seconds: (value / 1000).roundToDouble().toInt());
