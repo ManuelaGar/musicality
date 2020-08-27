@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-showAlertDialog(BuildContext context) {
+showAlertDialog(BuildContext context, String content) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -18,7 +18,7 @@ showAlertDialog(BuildContext context) {
               width: 10.0,
             ),
             Text(
-              'Successful download!',
+              content,
             ),
           ],
         ),

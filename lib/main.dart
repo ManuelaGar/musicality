@@ -1,22 +1,18 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
-import 'play_audio_widget.dart';
-import 'package:audio_service/audio_service.dart';
+import 'package:musicality/play_background_audio.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 void main() {
-  runApp(AudioApp());
-}
+  AssetsAudioPlayer.setupNotificationsOpenAction((notification) {
+    print(notification.audioId);
+    return true;
+  });
 
-class AudioApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Musicality',
-      home: AudioServiceWidget(
-          child: AudioPlayingWidget(
-        kUrl:
-            'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3',
-        backgroundImage: 'images/bg_img.png',
-      )),
-    );
-  }
+  runApp(NeumorphicTheme(
+      theme: NeumorphicThemeData(
+        intensity: 0.8,
+        lightSource: LightSource.topLeft,
+      ),
+      child:PlayBackgroundAudio()));
 }

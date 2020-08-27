@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DurationIndicators extends StatelessWidget {
-  const DurationIndicators({
+class AudioDurationIndicators extends StatelessWidget {
+  const AudioDurationIndicators({
     @required this.position,
     @required this.duration,
     @required this.positionText,

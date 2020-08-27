@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'components/duration_indicators.dart';
-import 'components/play_pause_icon.dart';
+import 'components/audio_duration_indicators.dart';
+import 'components/audio_icon_button.dart';
 import 'components/show_alert.dart';
 
 typedef void OnError(Exception exception);
@@ -157,7 +157,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
         isDownloaded = true;
         downloadEnabled = true;
         _playLocal();
-        showAlertDialog(context);
+        showAlertDialog(context, 'Successful download!');
       });
     }
   }
@@ -230,19 +230,19 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 0.0, vertical: 20.0),
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  PlayPauseIconButton(
+                  AudioIconButton(
                     onTap: isPlaying || isPaused ? () => stop() : null,
                     icon: Icons.stop,
                     containerSize: 55.0,
                   ),
-                  PlayPauseIconButton(
+                  AudioIconButton(
                     onTap: isPlaying
                         ? () => pause()
                         : isDownloaded ? () => _playLocal() : () => play(),
                     icon: isPlaying ? Icons.pause : Icons.play_arrow,
                     containerSize: 70.0,
                   ),
-                  PlayPauseIconButton(
+                  AudioIconButton(
                     onTap:
                         isMuted == false ? () => mute(true) : () => mute(false),
                     icon: isMuted == false ? Icons.headset : Icons.headset_off,
@@ -276,7 +276,7 @@ class _AudioPlayingWidgetState extends State<AudioPlayingWidget> {
                   max: duration.inMilliseconds.toDouble(),
                 ),
               ),
-              DurationIndicators(
+              AudioDurationIndicators(
                 position: position,
                 positionText: positionText,
                 duration: duration,

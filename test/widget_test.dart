@@ -1,11 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:musicality/main.dart';
+import 'package:musicality/play_background_audio.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(AudioApp());
+    await tester.pumpWidget(PlayBackgroundAudio());
 
     /*// Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

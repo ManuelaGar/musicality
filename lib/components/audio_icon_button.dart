@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PlayPauseIconButton extends StatelessWidget {
-  PlayPauseIconButton(
+class AudioIconButton extends StatelessWidget {
+  AudioIconButton(
       {@required this.onTap,
       @required this.icon,
       @required this.containerSize});

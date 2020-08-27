@@ -1,4 +1,8 @@
 PODS:
+  - assets_audio_player (0.0.1):
+    - Flutter
+  - assets_audio_player_web (0.0.1):
+    - Flutter
   - audio_service (0.0.1):
     - Flutter
   - audioplayer (0.0.1):
@@ -20,6 +24,8 @@ PODS:
     - FMDB (~> 2.7.2)
 
 DEPENDENCIES:
+  - assets_audio_player (from `.symlinks/plugins/assets_audio_player/ios`)
+  - assets_audio_player_web (from `.symlinks/plugins/assets_audio_player_web/ios`)
   - audio_service (from `.symlinks/plugins/audio_service/ios`)
   - audioplayer (from `.symlinks/plugins/audioplayer/ios`)
   - audioplayer_web (from `.symlinks/plugins/audioplayer_web/ios`)
@@ -34,6 +40,10 @@ SPEC REPOS:
     - FMDB
 
 EXTERNAL SOURCES:
+  assets_audio_player:
+    :path: ".symlinks/plugins/assets_audio_player/ios"
+  assets_audio_player_web:
+    :path: ".symlinks/plugins/assets_audio_player_web/ios"
   audio_service:
     :path: ".symlinks/plugins/audio_service/ios"
   audioplayer:
@@ -52,6 +62,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
+  assets_audio_player: edee322b9cb625571b830b35872ead1a295fd917
+  assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
   audio_service: f509d65da41b9521a61f1c404dd58651f265a567
   audioplayer: 0584f31a697e4b0bbad405ae7903d7a93585e784
   audioplayer_web: 790a332a481088f935107592964a4f36b7a18a8a
@@ -64,4 +76,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.3
