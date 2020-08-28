@@ -5,7 +5,6 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 import 'playing_controls.dart';
 import 'position_seek_widget.dart';
-import 'songs_selector.dart';
 
 class PlayBackgroundAudio extends StatefulWidget {
   @override
@@ -66,6 +65,30 @@ class _PlayBackgroundAudioState extends State<PlayBackgroundAudio> {
         .add(AssetsAudioPlayer.addNotificationOpenAction((notification) {
       return false;
     }));
+
+    _assetsAudioPlayer.open(
+      Audio.network(
+        "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Music_for_Video/springtide/Sounds_strange_weird_but_unmistakably_romantic_Vol1/springtide_-_03_-_We_Are_Heading_to_the_East.mp3",
+        metas: Metas(
+          id: "Online",
+          title: "Online",
+          artist: "Florent Champigny",
+          album: "OnlineAlbum",
+          image: MetasImage.network(
+              "https://image.shutterstock.com/image-vector/pop-music-text-art-colorful-600w-515538502.jpg"),
+        ),
+      ),
+      showNotification: true,
+      notificationSettings: NotificationSettings(
+        prevEnabled: false, //disable the previous button
+        nextEnabled: false,
+      ),
+      headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
+      audioFocusStrategy:
+          AudioFocusStrategy.request(resumeAfterInterruption: true),
+      playInBackground: PlayInBackground.enabled,
+    );
+
     super.initState();
   }
 
@@ -73,10 +96,6 @@ class _PlayBackgroundAudioState extends State<PlayBackgroundAudio> {
   void dispose() {
     _assetsAudioPlayer.dispose();
     super.dispose();
-  }
-
-  Audio find(List<Audio> source, String fromPath) {
-    return source.firstWhere((element) => element.path == fromPath);
   }
 
   @override
@@ -100,231 +119,103 @@ class _PlayBackgroundAudioState extends State<PlayBackgroundAudio> {
                     children: <Widget>[
                       _assetsAudioPlayer.builderCurrent(
                         builder: (BuildContext context, Playing playing) {
-                          if (playing != null) {
-                            final myAudio =
-                                find(this.audios, playing.audio.assetAudioPath);
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Neumorphic(
-                                style: NeumorphicStyle(
-                                  depth: 8,
-                                  surfaceIntensity: 1,
-                                  shape: NeumorphicShape.concave,
-                                  boxShape: NeumorphicBoxShape.circle(),
-                                ),
-                                child: myAudio.metas.image.type ==
-                                        ImageType.network
-                                    ? Image.network(
-                                        myAudio.metas.image.path,
-                                        height: 150,
-                                        width: 150,
-                                        fit: BoxFit.contain,
-                                      )
-                                    : Image.asset(
-                                        myAudio.metas.image.path,
-                                        height: 150,
-                                        width: 150,
-                                        fit: BoxFit.contain,
-                                      ),
+                          final myAudio = Audio.network(
+                            'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3',
+                            //playSpeed: 2.0,
+                            metas: Metas(
+                              id: "Rock",
+                              title: "Rock",
+                              artist: "Florent Champigny",
+                              album: "RockAlbum",
+                              image: MetasImage.network(
+                                  "https://static.radio.fr/images/broadcasts/cb/ef/2075/c300.png"),
+                            ),
+                          );
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Neumorphic(
+                              style: NeumorphicStyle(
+                                depth: 8,
+                                surfaceIntensity: 1,
+                                shape: NeumorphicShape.concave,
+                                boxShape: NeumorphicBoxShape.circle(),
                               ),
-                            );
-                          }
-                          return SizedBox();
+                              child:
+                                  myAudio.metas.image.type == ImageType.network
+                                      ? Image.network(
+                                          myAudio.metas.image.path,
+                                          height: 150,
+                                          width: 150,
+                                          fit: BoxFit.contain,
+                                        )
+                                      : Image.asset(
+                                          myAudio.metas.image.path,
+                                          height: 150,
+                                          width: 150,
+                                          fit: BoxFit.contain,
+                                        ),
+                            ),
+                          );
                         },
-                      ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: NeumorphicButton(
-                          style: NeumorphicStyle(
-                            boxShape: NeumorphicBoxShape.circle(),
-                          ),
-                          padding: EdgeInsets.all(18),
-                          margin: EdgeInsets.all(18),
-                          onPressed: () {
-                            AssetsAudioPlayer.playAndForget(
-                                Audio("assets/audios/horn.mp3"));
-                          },
-                          child: Icon(
-                            Icons.add_alert,
-                            color: Colors.grey[800],
-                          ),
-                        ),
                       ),
                     ],
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _assetsAudioPlayer.builderCurrent(
-                      builder: (context, playing) {
-                    if (playing == null) {
-                      return SizedBox();
-                    }
-                    return Column(
-                      children: <Widget>[
-                        _assetsAudioPlayer.builderLoopMode(
-                          builder: (context, loopMode) {
-                            return PlayerBuilder.isPlaying(
-                                player: _assetsAudioPlayer,
-                                builder: (context, isPlaying) {
-                                  return PlayingControls(
-                                    loopMode: loopMode,
-                                    isPlaying: isPlaying,
-                                    isPlaylist: true,
-                                    onStop: () {
-                                      _assetsAudioPlayer.stop();
-                                    },
-                                    toggleLoop: () {
-                                      _assetsAudioPlayer.toggleLoop();
-                                    },
-                                    onPlay: () {
-                                      _assetsAudioPlayer.playOrPause();
-                                    },
-                                    onNext: () {
-                                      //_assetsAudioPlayer.forward(Duration(seconds: 10));
-                                      _assetsAudioPlayer.next(keepLoopMode: true
-                                          /*keepLoopMode: false*/);
-                                    },
-                                    onPrevious: () {
-                                      _assetsAudioPlayer.previous(
-                                          /*keepLoopMode: false*/);
-                                    },
-                                  );
-                                });
-                          },
-                        ),
-                        _assetsAudioPlayer.builderRealtimePlayingInfos(
-                            builder: (context, infos) {
-                          if (infos == null) {
-                            return SizedBox();
-                          }
-                          //print("infos: $infos");
-                          return Column(
-                            children: [
-                              PositionSeekWidget(
-                                currentPosition: infos.currentPosition,
-                                duration: infos.duration,
-                                seekTo: (to) {
-                                  _assetsAudioPlayer.seek(to);
-                                },
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  NeumorphicButton(
-                                    child: Text("-10"),
-                                    onPressed: () {
-                                      _assetsAudioPlayer
-                                          .seekBy(Duration(seconds: -10));
-                                    },
-                                  ),
-                                  SizedBox(
-                                    width: 12,
-                                  ),
-                                  NeumorphicButton(
-                                    child: Text("+10"),
-                                    onPressed: () {
-                                      _assetsAudioPlayer
-                                          .seekBy(Duration(seconds: 10));
-                                    },
-                                  ),
-                                ],
-                              )
-                            ],
-                          );
-                        }),
-                      ],
-                    );
-                  }),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _assetsAudioPlayer.builderCurrent(
-                      builder: (BuildContext context, Playing playing) {
-                    return SongsSelector(
-                      audios: this.audios,
-                      onPlaylistSelected: (myAudios) {
-                        _assetsAudioPlayer.open(
-                          Playlist(audios: myAudios),
-                          showNotification: true,
-                          headPhoneStrategy:
-                              HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
-                          audioFocusStrategy: AudioFocusStrategy.request(
-                              resumeAfterInterruption: true),
-                        );
-                      },
-                      onSelected: (myAudio) async {
-                        try {
-                          await _assetsAudioPlayer.open(
-                            myAudio,
-                            autoStart: true,
-                            showNotification: true,
-                            playInBackground: PlayInBackground.enabled,
-                            audioFocusStrategy: AudioFocusStrategy.request(
-                                resumeAfterInterruption: true,
-                                resumeOthersPlayersAfterDone: true),
-                            headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-                            notificationSettings: NotificationSettings(
-                                //seekBarEnabled: false,
-                                //stopEnabled: true,
-                                //customStopAction: (player){
-                                //  player.stop();
-                                //}
-                                //prevEnabled: false,
-                                //customNextAction: (player) {
-                                //  print("next");
-                                //}
-                                //customStopIcon: AndroidResDrawable(name: "ic_stop_custom"),
-                                //customPauseIcon: AndroidResDrawable(name:"ic_pause_custom"),
-                                //customPlayIcon: AndroidResDrawable(name:"ic_play_custom"),
-                                ),
-                          );
-                        } catch (e) {
-                          print(e);
+                  Column(
+                    children: <Widget>[
+                      _assetsAudioPlayer.builderLoopMode(
+                        builder: (context, loopMode) {
+                          return PlayerBuilder.isPlaying(
+                              player: _assetsAudioPlayer,
+                              builder: (context, isPlaying) {
+                                return PlayingControls(
+                                  loopMode: loopMode,
+                                  isPlaying: isPlaying,
+                                  isPlaylist: true,
+                                  onStop: () {
+                                    _assetsAudioPlayer.stop();
+                                  },
+                                  toggleLoop: () {
+                                    _assetsAudioPlayer.toggleLoop();
+                                  },
+                                  onPlay: () {
+                                    _assetsAudioPlayer.playOrPause();
+                                  },
+                                  onNext: () {
+                                    //_assetsAudioPlayer.forward(Duration(seconds: 10));
+                                    _assetsAudioPlayer.next(keepLoopMode: true
+                                        /*keepLoopMode: false*/);
+                                  },
+                                  onPrevious: () {
+                                    _assetsAudioPlayer.previous(
+                                        /*keepLoopMode: false*/);
+                                  },
+                                );
+                              });
+                        },
+                      ),
+                      _assetsAudioPlayer.builderRealtimePlayingInfos(
+                          builder: (context, infos) {
+                        if (infos == null) {
+                          return SizedBox();
                         }
-                      },
-                      playing: playing,
-                    );
-                  }),
-                  /*
-                  PlayerBuilder.volume(
-                      player: _assetsAudioPlayer,
-                      builder: (context, volume) {
-                        return VolumeSelector(
-                          volume: volume,
-                          onChange: (v) {
-                            _assetsAudioPlayer.setVolume(v);
-                          },
+                        //print("infos: $infos");
+                        return Column(
+                          children: [
+                            PositionSeekWidget(
+                              currentPosition: infos.currentPosition,
+                              duration: infos.duration,
+                              seekTo: (to) {
+                                _assetsAudioPlayer.seek(to);
+                              },
+                            ),
+                          ],
                         );
                       }),
-                   */
-                  /*
-                  PlayerBuilder.forwardRewindSpeed(
-                      player: _assetsAudioPlayer,
-                      builder: (context, speed) {
-                        return ForwardRewindSelector(
-                          speed: speed,
-                          onChange: (v) {
-                            _assetsAudioPlayer.forwardOrRewind(v);
-                          },
-                        );
-                      }),
-                   */
-                  /*
-                  PlayerBuilder.playSpeed(
-                      player: _assetsAudioPlayer,
-                      builder: (context, playSpeed) {
-                        return PlaySpeedSelector(
-                          playSpeed: playSpeed,
-                          onChange: (v) {
-                            _assetsAudioPlayer.setPlaySpeed(v);
-                          },
-                        );
-                      }),
-                   */
+                    ],
+                  ),
                 ],
               ),
             ),

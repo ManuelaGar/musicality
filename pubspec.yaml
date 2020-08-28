@@ -21,6 +21,7 @@ dependencies:
   rxdart: ^0.24.1
   flutter_neumorphic: ^3.0.1
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

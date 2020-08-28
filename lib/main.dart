@@ -14,5 +14,5 @@ void main() {
         intensity: 0.8,
         lightSource: LightSource.topLeft,
       ),
-      child:PlayBackgroundAudio()));
+      child: PlayBackgroundAudio()));
 }
