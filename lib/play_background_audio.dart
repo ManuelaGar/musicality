@@ -12,31 +12,17 @@ class PlayBackgroundAudio extends StatefulWidget {
 }
 
 class _PlayBackgroundAudioState extends State<PlayBackgroundAudio> {
-  final audios = <Audio>[
-    Audio.network(
-      "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Music_for_Video/springtide/Sounds_strange_weird_but_unmistakably_romantic_Vol1/springtide_-_03_-_We_Are_Heading_to_the_East.mp3",
-      metas: Metas(
-        id: "Online",
-        title: "Online",
-        artist: "Florent Champigny",
-        album: "OnlineAlbum",
-        image: MetasImage.network(
-            "https://image.shutterstock.com/image-vector/pop-music-text-art-colorful-600w-515538502.jpg"),
-      ),
+  final myAudio = Audio.network(
+    "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Music_for_Video/springtide/Sounds_strange_weird_but_unmistakably_romantic_Vol1/springtide_-_03_-_We_Are_Heading_to_the_East.mp3",
+    metas: Metas(
+      id: "Online",
+      title: "Online",
+      artist: "Florent Champigny",
+      album: "OnlineAlbum",
+      image: MetasImage.network(
+          "https://image.shutterstock.com/image-vector/pop-music-text-art-colorful-600w-515538502.jpg"),
     ),
-    Audio.network(
-      'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3',
-      //playSpeed: 2.0,
-      metas: Metas(
-        id: "Rock",
-        title: "Rock",
-        artist: "Florent Champigny",
-        album: "RockAlbum",
-        image: MetasImage.network(
-            "https://static.radio.fr/images/broadcasts/cb/ef/2075/c300.png"),
-      ),
-    ),
-  ];
+  );
 
   AssetsAudioPlayer get _assetsAudioPlayer => AssetsAudioPlayer.withId("music");
   final List<StreamSubscription> _subscriptions = [];
@@ -67,21 +53,14 @@ class _PlayBackgroundAudioState extends State<PlayBackgroundAudio> {
     }));
 
     _assetsAudioPlayer.open(
-      Audio.network(
-        "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Music_for_Video/springtide/Sounds_strange_weird_but_unmistakably_romantic_Vol1/springtide_-_03_-_We_Are_Heading_to_the_East.mp3",
-        metas: Metas(
-          id: "Online",
-          title: "Online",
-          artist: "Florent Champigny",
-          album: "OnlineAlbum",
-          image: MetasImage.network(
-              "https://image.shutterstock.com/image-vector/pop-music-text-art-colorful-600w-515538502.jpg"),
-        ),
-      ),
+      myAudio,
       showNotification: true,
       notificationSettings: NotificationSettings(
         prevEnabled: false, //disable the previous button
         nextEnabled: false,
+        customPlayPauseAction: (player) {
+          _assetsAudioPlayer.playOrPause();
+        },
       ),
       headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
       audioFocusStrategy:
@@ -119,18 +98,6 @@ class _PlayBackgroundAudioState extends State<PlayBackgroundAudio> {
                     children: <Widget>[
                       _assetsAudioPlayer.builderCurrent(
                         builder: (BuildContext context, Playing playing) {
-                          final myAudio = Audio.network(
-                            'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3',
-                            //playSpeed: 2.0,
-                            metas: Metas(
-                              id: "Rock",
-                              title: "Rock",
-                              artist: "Florent Champigny",
-                              album: "RockAlbum",
-                              image: MetasImage.network(
-                                  "https://static.radio.fr/images/broadcasts/cb/ef/2075/c300.png"),
-                            ),
-                          );
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Neumorphic(
